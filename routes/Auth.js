@@ -22,10 +22,8 @@ router.post('/register', (req, res) => {
 
             if (user) {
                 //Return error message
-                res.json({message: "A user with account exists"})
+                res.status(400).json({message: "A user with account exists"})
             } else {
-
-                
                 //Save new user
                 const newUser = new User({
                     name: req.body.name,
@@ -38,7 +36,7 @@ router.post('/register', (req, res) => {
                         newUser.password = hash;
                         newUser
                             .save()
-                            .then(user => res.json(user))
+                            .then(user => res.status(209).json(user))
                             .catch(err => res.json({
                                 message: err
                             }));
