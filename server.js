@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const keys = require('./config/keys')
+const keys = require('./config/keys');
+const cors = require('cors');
 const passport = require('passport');
 
 const db = keys.mongoURI;
@@ -13,6 +14,8 @@ mongoose
 
 const app = express()
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.use(cors());
 
 //Init passport
 app.use(passport.initialize());

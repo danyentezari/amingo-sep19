@@ -20,10 +20,14 @@ router.post('/register', (req, res) => {
     User.findOne({email: req.body.email})
         .then( user => {
 
+            console.log('req here', req.body)
+
             if (user) {
                 //Return error message
                 res.json({message: "Invalid user"})
             } else {
+
+                
                 //Save new user
                 const newUser = new User({
                     name: req.body.name,
