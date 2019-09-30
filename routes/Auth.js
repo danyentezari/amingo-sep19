@@ -20,11 +20,9 @@ router.post('/register', (req, res) => {
     User.findOne({email: req.body.email})
         .then( user => {
 
-            console.log('req here', req.body)
-
             if (user) {
                 //Return error message
-                res.json({message: "Invalid user"})
+                res.json({message: "A user with account exists"})
             } else {
 
                 
@@ -41,7 +39,9 @@ router.post('/register', (req, res) => {
                         newUser
                             .save()
                             .then(user => res.json(user))
-                            .catch(err => console.log(err));
+                            .catch(err => res.json({
+                                message: err
+                            }));
                     });
                 });
             }
