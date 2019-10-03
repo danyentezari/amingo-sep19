@@ -1,6 +1,5 @@
 const express = require('express');
-const Post = require('../models/Post');
-const User = require('../models/User');
+const PostModel = require('../models/Post');
 
 const router = express.Router();
 
@@ -31,7 +30,7 @@ router.post('/', (req, res) =>{
  * @param {string} message - new message
  */
 router.put('/:id', (req, res) =>{
-    Post
+    PostModel
         .findById(req.params.id)
         .then(post => {
             console.log("Post found", post);
@@ -49,7 +48,7 @@ router.put('/:id', (req, res) =>{
  * @param {string} id - id of the post
  */
 router.delete('/', (req, res) =>{
-    Post
+    PostModel
         .findById(req.query.id)
         .then(post => {
             console.log("Post found", post);
@@ -64,14 +63,14 @@ router.delete('/', (req, res) =>{
  * @name GET /post
  */
 router.get('/', (req, res) => {
-    Post
+    PostModel
         .find({user: req.user})
         .then(posts => res.json(posts))
         .catch(err => res.json(err))
 });
 
 router.get('/getByEmail', (req, res) => {
-    Post
+    PostModel
         .find({email: req.query.email})
         .then(posts => res.json(posts))
         .catch(err => res.json(err))

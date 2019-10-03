@@ -75,7 +75,7 @@ router.post('/login', (req, res) => {
                             res.json({
                                 success: true,
                                 token: token,
-                                name: user.name
+                                name: user.name,
                             });
                         }
                     );

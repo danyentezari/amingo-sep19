@@ -1,5 +1,5 @@
 const express = require('express')
-const User = require('../models/User')
+const UserModel = require('../models/User')
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ const router = express.Router();
  * @name GET: /users/
  */
 router.get('/', (req, res)=> {
-    User.find()
+    UserModel.find()
         .then(users => res.json(users))
         .catch(err => res.json(err));
 });
