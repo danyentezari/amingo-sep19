@@ -14,7 +14,6 @@ const keys = require('./config/keys');
 // Connect to the appropriate database (e.g, working, staging, production, etc.)
 const db = keys.mongoURI;
 
-
 mongoose
     // Connect to database
     .connect(db, {useNewUrlParser:true, useUnifiedTopology: true })
@@ -51,6 +50,14 @@ app.use(
     userRoutes // subcontroller (routes/User.js)
 );
 
+//Tweets routes
+const tweetRoutes = require('./routes/Tweets');
+app.use(
+    '/tweets', //route
+    passport.authenticate('jwt', {session: false}), //middleware
+    tweetRoutes // subcontroller (routes/User.js)
+);
+
 //Post routes
 const postRoutes = require('./routes/Post');
 app.use(
@@ -59,10 +66,21 @@ app.use(
     postRoutes //subcontroller (routes/Post.js)
 );
 
-
 app.get(
     '/', //route
     (req, res) => res.send({ msg: "Welcome to Amingo" }) // view
+)
+
+app.post(
+    '/push',
+    (req, res)=> {
+        const subscription = req.body.subscription;
+        const payload = req.body.payload;
+        const options = {
+            TTL: req.body.ttl
+        };
+        webPush.sendNotification(subscription, null, options);
+    }
 )
 
 const port = process.env.PORT || 5000
