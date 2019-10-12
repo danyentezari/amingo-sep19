@@ -6,8 +6,6 @@ const router = express.Router();
 
 router.post('/post', (req, res) =>{
 
-    let tweet;
-
     // Step 1: Find the user
     User
         // Find the user by id
@@ -16,7 +14,7 @@ router.post('/post', (req, res) =>{
         .then((user)=>{
 
             // Create a tweet model 
-            tweet = new Tweet({
+            let newTweet = new Tweet({
                 user,
                 text: req.body.text,
                 photo: req.body.photo,
@@ -24,12 +22,12 @@ router.post('/post', (req, res) =>{
             })
 
             // Push the tweet id into the user.tweets array
-            user.tweets.push(tweet);
+            user.tweets.push(newTweet);
 
             // Update the user with a tweet ObjectID AND
             // save the tweet
             Promise.all(
-                [user.save(), tweet.save()]
+                [user.save(), newTweet.save()]
             )
 
             // Once all of promises have been resolved
